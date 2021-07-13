@@ -104,6 +104,8 @@ export class lightBulb {
       .subscribe(() => {
         this.refreshStatus();
       });
+    const adaptiveLightingController = new this.platform.api.hap.AdaptiveLightingController(this.service);
+    this.accessory.configureController(adaptiveLightingController);
   }
 
   calculateTemperature(payload_temperature: number) {
@@ -197,9 +199,9 @@ export class lightBulb {
     // Namespace
     switch (this.device.model) {
       case 'MSL-320':
-        this.Namespace = 'Appliance.System.Online';
-        this.Method = 'GET';
-        break;
+        // this.Namespace = 'Appliance.System.Online';
+        // this.Method = 'GET';
+        // break;
       case 'MSL-120':
         this.Namespace = 'Appliance.System.All';
         this.Method = 'GET';
@@ -352,7 +354,7 @@ export class lightBulb {
         data: this.Data,
       });
 
-      this.platform.log.info('Setting brightness to %s for %s', this.Brightness, this.accessory.displayName);
+      this.platform.log.debug('Setting brightness to %s for %s', this.Brightness, this.accessory.displayName);
       this.platform.log.debug('%s %s Changes pushed -', this.device.model, this.accessory.displayName, JSON.stringify(push.data));
     } catch (e) {
       this.platform.log.error(
